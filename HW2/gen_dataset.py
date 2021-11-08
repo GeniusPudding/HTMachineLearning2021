@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np
 
 mean_pos = [2, 3]
