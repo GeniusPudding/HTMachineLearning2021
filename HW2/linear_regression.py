@@ -44,10 +44,25 @@ def problem14(times):
         print("zero_one_in_err, zero_one_out_err:",zero_one_in_err, zero_one_out_err)
         diff += np.abs(zero_one_in_err-zero_one_out_err)
     print('av_01_err:',diff/times)  
+def problem15(times):
+    E_01_out = 0
+    for i in range(times):
+        train_data, test_data = gen_dataset()
+        w_lin, X, y = lin_reg_alg(train_data)
+        test_y = test_data.T[0]
+        test_X = test_data.T[1:].T    
+        E_01_out += cal_01_err(w_lin, test_X, test_y,5000)
+    print('av_01_out_err:',E_01_out/times)  
 
 if __name__ == "__main__":
     #p13:
     # problem13(100)
 
     #p14:  
-    problem14(1000)#av_01_err: 0.011751800000000017
+    # problem14(1000)#av_01_err: 0.011751800000000017
+    
+    #p15:  
+    problem15(100)
+
+    #p16: 
+    # problem16(100)  
