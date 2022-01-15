@@ -120,10 +120,11 @@ blank = 0
 for i,s in enumerate(services[1:]):
     # print(s)
     # input()
-    
+
     s_id = s[0] 
-    if s_id not in Train_IDs or s_id not in label:
+    if s_id not in label:
         continue 
+
     l_s = label[s_id]  
     # print(f'before services[i+1]:{services[i+1]}')
 
@@ -138,24 +139,27 @@ for i,s in enumerate(services[1:]):
     if s[6] == '':
         weight_offer = [offer[v][l_s]  for v in offer_map.values()]
         services[i+1][6] = random.choices(list(offer_map.keys()),weights=weight_offer)[0]
+
     if s[11] == '':
         weight_internet = [internet[v][l_s]  for v in internet_map.values()]
         services[i+1][11] = random.choices(list(internet_map.keys()),weights=weight_internet)[0]
+
     if s[21] == '':
         weight_contract = [contract[v][l_s]  for v in contract_map.values()]
         services[i+1][21] = random.choices(list(contract_map.keys()),weights=weight_contract)[0]
+
     if s[23] == '':
         payment_offer = [payment[v][l_s]  for v in payment_map.values()]
         services[i+1][23] = random.choices(list(payment_map.keys()),weights=payment_offer)[0]
 
-    # input(f'after services[i+1]:{services[i+1]}\n')
     total += 1 
     if ''  in s:
         blank += 1
 print(f'blank:{blank},total:{total}')
-#
+
+
 write_csv_list('services_filled.csv', services)
-print(services)
+input(services)
 
 # population_dict = {}
 # for d in population:

@@ -12,7 +12,7 @@ def read_csv_list(filename):
     return np.array(csv_list)
 
 Test_IDs = read_csv_list('Test_IDs.csv')
-Train_IDs = read_csv_list('Train_IDs.csv')
+Train_IDs = read_csv_list('Train_IDs.csv')#Test_IDs intersection Train_IDs = NULL
 status = read_csv_list('status.csv')
 demographics = read_csv_list('demographics_filled.csv')
 location = read_csv_list('location_filled.csv')
@@ -20,18 +20,50 @@ population = read_csv_list('population.csv')
 satisfaction = read_csv_list('satisfaction.csv')
 services = read_csv_list('services.csv')
 
-population_dict = {}
-for d in population:
-    population_dict[d[1]] = d[2]
-
 label = {}
 label_map = {'No Churn':0, 'Competitor':1, 'Dissatisfaction':2, 'Attitude':3, 'Price':4, 'Other':5}
 for s in status:
     label[s[0]] = label_map[s[1]]
 # keys = label.keys()
-location_dict = {}
-for d in location:
-    location_dict[d[0]] = [d[5],d[7],d[8]]
+ts = 0
+td = 0
+tl = 0
+tsa = 0
+tse = 0 
+#num of train id not in csvs:1408 698 686 693 698 
+#num of test id not in csvs:1409 182 194 187 182
+#num of (label)status id not in csvs:524 514 513 535
+nonelabeled_id = [] 
+labeled_id = []
+test = [t0 for [t0] in Test_IDs]
+train = [t0 for [t0] in Train_IDs]
+for tr in test:
+    b = False
+    
+    t = ts+td+tl+tsa+tse
+    if tr not in status:
+        ts +=1
+
+    if tr not in demographics:
+        td +=1
+
+    if tr not in location:
+        tl +=1
+
+    if tr not in satisfaction:
+        tsa +=1
+
+    if tr not in services:
+        tse +=1
+    if ts+td+tl+tsa+tse - t == 5:
+        input(f'id:{tr} not exist')
+
+print(ts,td,tl,tsa,tse)
+input()
+
+population_dict = {d[1]:d[2] for d in population}
+location_dict = {d[0]:[d[5],d[7],d[8]] for d in location }
+
     # input(d)
 y = []
 x = []
